@@ -1,0 +1,58 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+.envrc
+
+# Editor settings
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Logs and PIDs
+*.log
+*.pid
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Testing and type-checking
+.pytest_cache/
+.cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Docker-related
+docker-compose.override.yml
+*.tar
+
+# Data files
+*.csv
+*.tsv
+*.xls
+*.xlsx
+
+# Model files
+*.pkl
+*.joblib
+*.h5
+
+# OS files
+.DS_Store
+Thumbs.db
