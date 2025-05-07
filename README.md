@@ -1,120 +1,160 @@
-# Python Data Science Container
+# 🚀 ML Model Deployment with FastAPI & Docker
 
-Author: De Liu (2025)
+A full-stack machine learning deployment pipeline built from scratch. This project trains a classification model using synthetic data, wraps it in a FastAPI REST API for inference, and containerizes the service using Docker for scalable production deployment.
+---
 
-A containerized FastAPI application for data science model deployment. This project provides a REST API endpoint for making predictions using a pre-trained machine learning model.
+## 📦 Project Overview
 
-Prepared for MSBA 6331 Big Data Analytics
+This application demonstrates the full lifecycle of a containerized machine learning system:
 
-## Features
+- ✅ Synthetic data generation
+- ✅ Model training and persistence with `joblib`
+- ✅ RESTful prediction API using **FastAPI**
+- ✅ Containerization using **Docker**
+- ✅ Endpoint testing with `curl`
 
-- FastAPI-based REST API server
-- Model prediction endpoint for CSV file uploads
-- Containerized deployment using Docker
-- Pre-trained model included
+---
 
-## Prerequisites
+## 🧠 ML Stack Used
 
-- Docker and Docker Compose (for containerized deployment)
-- Python 3.11+ (for local development)
+- **FastAPI** – lightweight Python web framework for APIs  
+- **scikit-learn** – used for model training  
+- **joblib** – to save and load the trained model  
+- **Docker** – containerization for portability  
+- **pandas** – data manipulation  
+- **uvicorn** – ASGI server to run FastAPI
 
-## Setup Instructions
+---
 
-### Option 1: Using Docker (Recommended)
+## 🔧 Setup Instructions
 
-1. Build the Docker image:
-```bash
-docker build -t python-ds-container .
-```
+### 1. Create and activate virtual environment
 
-2. Run the container:
-```bash
-docker run -p 8000:8000 python-ds-container
-```
-
-3. View the FastAPI documentation:
-
-Open a browser, and navigate to `http://localhost:8000/docs`.
-
-
-4. Test the API
-
-Suppose that you have generated a `test.csv` file using `generate_data.py`.
-
-```bash
-curl -X POST http://localhost:8000/predict/ \
-  -H "Content-Type: multipart/form-data" \
-  -F "file=@test.csv"
-```
-
-> `curl`: command-line tool for transferring data with URL syntax.
-
-> If the curl command is not working on Windows, you can open a bash terminal, and try the command there.
-
-### Option 2: Local Development
-
-1. Create and activate a virtual environment:
 ```bash
 python -m venv venv
-source venv/bin/activate  # On Unix/macOS
-# or
-venv\Scripts\activate     # On Windows
+# On Unix/macOS
+source venv/bin/activate
+# On Windows
+call venv\Scripts\activate.bat
 ```
 
-2. Install dependencies:
+### 2. Define dependencies
+
+Create `requirements.in` with:
+
+```
+fastapi
+uvicorn
+pandas
+scikit-learn
+joblib
+python-multipart
+```
+
+Then run:
+
 ```bash
+pip install pip-tools
+pip-compile requirements.in
 pip install -r requirements.txt
 ```
 
-3. Generate data:
+---
 
-Using the included code to generate a training or testing dataset.
+## 🛠️ Usage
+
+### 1. Generate data
 
 ```bash
-# usage: python generate_data.py <filename> <num_samples>
 python generate_data.py train.csv 2000
 python generate_data.py test.csv 20
 ```
 
-4. Generate model:
-
-This script will train a machine learning model using `train.csv` and save the resultant model to `model.pkl`.
+### 2. Train model
 
 ```bash
 python generate_model.py
 ```
 
-## Usage
+This saves a trained model to `model.pkl`.
 
-The API provides a single endpoint for making predictions:
+### 3. Run FastAPI server
 
-- POST `/predict/` - Accepts a CSV file and returns predictions
+```bash
+uvicorn app:app --reload
+```
 
-Example using curl:
+---
+
+## 🐳 Docker Setup
+
+### 1. Build Docker image
+
+```bash
+docker build -t python-ds-container .
+```
+
+### 2. Run Docker container
+
+```bash
+docker run -p 8000:8000 python-ds-container
+```
+
+---
+
+## 🧪 API Testing (via `curl`)
+
+If you're on Windows, use Git Bash or WSL.
+
 ```bash
 curl -X POST http://localhost:8000/predict/ \
   -H "Content-Type: multipart/form-data" \
   -F "file=@test.csv"
 ```
 
-## Project Structure
+Expected output:
 
-- `app.py` - Main FastAPI application
-- `model.pkl` - Pre-trained machine learning model
-- `generate_data.py` - Data generation script
-- `generate_model.py` - Model training script
-- `requirements.txt` - Python dependencies
-- `Dockerfile` - Container configuration
-
-## Development
-
-The project uses pip-tools for dependency management. To update dependencies:
-
-```bash
-pip install pip-tools
-pip-compile requirements.in
+```json
+{"predictions":[1,0,1,0,...]}
 ```
 
-## License
+> ⚠️ Remove the label column from `test.csv` before uploading, or prediction may fail.
+
+---
+
+## 📂 File Structure
+
+```
+├── app.py                # FastAPI app
+├── model.pkl             # Trained ML model
+├── Dockerfile            # Container instructions
+├── generate_data.py      # Generates train/test CSVs
+├── generate_model.py     # Trains and saves model
+├── requirements.in
+├── requirements.txt
+└── .gitignore
+```
+
+---
+
+## 🧠 What I Learned
+
+- Converting notebooks to production-ready scripts
+- Containerizing machine learning APIs
+- Structuring clean Python APIs for inference
+- Using FastAPI for rapid prototyping
+- Reproducible environments with pip-tools
+
+---
+
+## 👨‍💻 Author
+
+**Tarun Kumar Deekonda**  
+MSBA Candidate @ UMN Carlson  
+[GitHub](https://github.com/deeko002) | [LinkedIn](https://linkedin.com/in/tarunkumardeekonda)
+
+---
+
+## 📜 License
 
 MIT License
